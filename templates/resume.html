@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Screening AI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Change from center to flex-start to prevent overlap */
+            height: 100vh;
+            text-align: center;
+            padding-top: 50px; /* Added padding to move the content down */
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1, h2 {
+            font-weight: 600;
+            animation: bounceText 2s infinite;
+            font-family: 'Monoton', cursive;
+        }
+
+        @keyframes bounceText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 5px 0;
+        }
+
+        input[type="file"] {
+            background: white;
+            color: black;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            width: 100%;
+            border: none;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background: #ff758c;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease-in-out, background 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background: #ff5a7e;
+            transform: scale(1.05);
+        }
+
+        .message-text {
+            font-family: 'Monoton', cursive;
+            font-size: 22px;
+            color: #ff5a7e;
+            animation: bounceText 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Resume Screening AI 🚀</h1>
+        <p>Upload your resume (TXT/PDF) and let the magic happen! ✨</p>
+        <form action="/pred" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf, .txt" required>
+            <input type="submit" value="Analyze My Resume!">
+        </form>
+
+        {% if message %}
+        <p class="message-text">⚠ {{ message }}</p>
+        {% endif %}
+
+        {% if predicted_category %}
+        <hr>
+        <p><strong>📂 Category:</strong> {{ predicted_category }}</p>
+        <hr>
+        <h2>🔍 Extracted Information</h2>
+        <p><strong>👤 Name:</strong> {{ name }}</p>
+        <p><strong>📞 Phone No:</strong> {{ phone }}</p>
+        <p><strong>📧 Email:</strong> {{ email }}</p>
+        {% if extracted_skills %}
+        <h2>🛠 Skills</h2>
+        <ul>
+            {% for skill in extracted_skills %}
+            <li>✅ {{ skill }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No skills found. 😔</p>
+        {% endif %}
+
+        {% if extracted_education %}
+        <h2>🎓 Education</h2>
+        <ul>
+            {% for edu in extracted_education %}
+            <li>📘 {{ edu }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No education details found. 📭</p>
+        {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
+
